@@ -1,0 +1,41 @@
+---
+- name: Deploy Bus Ticket Schedule Application
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Install Apache HTTP Server
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Deploy index.html
+      ansible.builtin.copy:
+        src: ../app/index.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Deploy style.css
+      ansible.builtin.copy:
+        src: ../app/style.css
+        dest: /var/www/html/style.css
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Deploy app.js
+      ansible.builtin.copy:
+        src: ../app/app.js
+        dest: /var/www/html/app.js
+        owner: root
+        group: root
+        mode: '0644'
+
